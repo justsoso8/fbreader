@@ -1,0 +1,126 @@
+Source: fbreader
+Section: text
+Priority: optional
+Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
+XSBC-Original-Maintainer: Eugene V. Lyubimkin <jackyf.devel@gmail.com>
+DM-Upload-Allowed: yes
+Standards-Version: 3.8.1
+Build-Depends: debhelper (>= 7), libgtk2.0-dev, libqt4-dev, libexpat1-dev,
+  libbz2-dev, libz-dev, liblinebreak-dev (>= 1.0),libfribidi-dev,
+  libcurl4-gnutls-dev, quilt (>= 0.24)
+Homepage: http://www.fbreader.org/
+
+Package: fbreader
+Architecture: any
+Replaces: fbreader-gtk, fbreader-qt, fbreader-qt4
+Depends: ${misc:Depends}, ${shlibs:Depends},
+  libzlui-gtk (>= ${binary:Version}) | libzlui-qt4 (>= ${binary:Version})
+Description: e-book reader
+ FBReader is an e-book reader.
+ .
+ Main features:
+  * supports several open e-book formats: fb2, html, chm, plucker,
+    palmdoc, ztxt, tcr (psion text), rtf, oeb, openreader, non-DRM'ed
+    mobipocket, plain text, epub
+  * reads directly from tar, zip, gzip, bzip2 archives (you can have
+    several books in one archive)
+  * supports a structured view of your e-book collection
+  * automatically determines encodings
+  * automatically generates a table of contents
+  * keeps the last open book and the last read positions for all open books
+    between runs
+  * automatic hyphenation (patterns for several languages are included)
+  * searching and downloading books from www.feedbooks.com and www.litres.ru
+  * partial CSS support for epub files
+
+Package: libzlcore0.10
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libzlcore-data (>= ${binary:Version})
+Conflicts: fbreader-gtk, fbreader-qt, fbreader-qt4
+Description: ZLibrary cross-platform development library (shared library)
+ This is the core of ZLibrary, the library that the fbreader e-book reader
+ is based on.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzlcore-data
+Section: libs
+Architecture: all
+Depends: ${misc:Depends}
+Conflicts: libzlcore (<< 0.8.17-12)
+Replaces: libzlcore (<< 0.8.17-12)
+Description: ZLibrary cross-platform development library (support files)
+ This package contains the support files for the core of ZLibrary, the library
+ that the fbreader e-book reader is based on.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzltext0.10
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libzlcore0.10 (= ${binary:Version}),
+  libzltext-data (>= ${binary:Version})
+Description: ZLibrary text model/viewer part (shared library)
+ This package provides text model/viewer part of ZLibrary. See also 
+ libzlcore0.10 package.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzltext-data
+Section: libs
+Architecture: all
+Depends: ${misc:Depends}
+Conflicts: libzltext, libzltext0.9
+Replaces: libzltext, libzltext0.9
+Description: ZLibrary text model/viewer part (support files)
+ This package contains the support files for the text model/viewer part
+ of ZLibrary. See also libzltext0.10 package.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzlui-gtk
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libzlcore0.10 (= ${binary:Version})
+Suggests: ttf-unifont
+Description: GTK+ interface module for ZLibrary
+ This package provides a GTK+-based UI for ZLibrary.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzlui-qt4
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libzlcore0.10 (= ${binary:Version})
+Description: Qt4 interface module for ZLibrary
+ This package provides a Qt4-based UI for ZLibrary.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzlcore-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libzlcore0.10 (= ${binary:Version})
+Description: ZLibrary cross-platform development library (development files)
+ This package contains development files for the ZLibrary core.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.
+
+Package: libzltext-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libzltext0.10 (= ${binary:Version})
+Description: ZLibrary text model/viewer part (development files)
+ This package contains development files for the ZLibrary text model/viewer
+ library.
+ .
+ ZLibrary is a cross-platform library to build applications running on desktop
+ Linux, Windows, different Linux-based PDAs using this library.

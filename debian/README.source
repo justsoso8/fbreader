@@ -1,0 +1,9 @@
+This Debian package for FBReader does not contain some hyphenation patterns due
+to following license problems:
+
+el.pattern: no license
+fi.pattern: modification is not explicitly allowed
+tr.pattern: no license
+
+These files were removed from zlibrary/text/data/hyphenationPatterns.zip.
+

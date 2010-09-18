@@ -1,0 +1,55 @@
+Disable the code related to libconic, we have no change to build libconic library.
+Index: fbreader/zlibrary/ui/Makefile
+===================================================================
+--- fbreader.orig/zlibrary/ui/Makefile	2009-05-01 00:00:58.003796550 +0300
++++ fbreader/zlibrary/ui/Makefile	2009-05-01 00:07:57.354811621 +0300
+@@ -57,10 +57,6 @@
+   GTKSUBDIRS = src/gtk/time src/maemo/dialogs src/maemo/optionView src/maemo/view src/gtk/image src/gtk/util src/maemo/application src/maemo/library src/gtk/filesystem src/maemo/message src/gtk/pixbuf
+ endif
+ 
+-ifeq "<$(UI_TYPE)>" "$(findstring <$(UI_TYPE)>, <maemo3> <maemo4> <maemo5>)"
+-  GTKSUBDIRS += src/maemo/network
+-endif
+-
+ ifeq "$(UI_TYPE)" "win32"
+   SUBDIRS += src/win32/view src/win32/w32widgets src/win32/dialogs src/win32/application src/win32/image src/win32/library src/win32/time src/win32/message
+ endif
+Index: fbreader/zlibrary/ui/src/maemo/library/ZLibrary.cpp
+===================================================================
+--- fbreader.orig/zlibrary/ui/src/maemo/library/ZLibrary.cpp	2009-05-01 00:06:48.826806384 +0300
++++ fbreader/zlibrary/ui/src/maemo/library/ZLibrary.cpp	2009-05-01 00:07:01.958794310 +0300
+@@ -36,9 +36,6 @@
+ #include "../message/ZLMaemoMessage.h"
+ #include "../../../../core/src/unix/xmlconfig/XMLConfig.h"
+ #include "../../../../core/src/unix/iconv/IConvEncodingConverter.h"
+-#if MAEMO_VERSION > 2
+-#include "../network/ZLMaemoNetworkManager.h"
+-#endif
+ 
+ class ZLGtkLibraryImplementation : public ZLibraryImplementation {
+ 
+@@ -63,9 +60,6 @@
+ 	ZLGtkDialogManager::createInstance();
+ 	ZLMaemoCommunicationManager::createInstance();
+ 	ZLGtkImageManager::createInstance();
+-#if MAEMO_VERSION > 2
+-	ZLMaemoNetworkManager::createInstance();
+-#endif
+ 
+ 	if (!ZLFile("/usr/lib/more-gconv").directory(false).isNull()) {
+ 		setenv("GCONV_PATH", "/usr/lib/more-gconv", 1);
+Index: fbreader/makefiles/arch/maemo.mk
+===================================================================
+--- fbreader.orig/makefiles/arch/maemo.mk	2009-05-01 00:09:04.522799669 +0300
++++ fbreader/makefiles/arch/maemo.mk	2009-05-01 00:09:37.787032186 +0300
+@@ -18,8 +18,8 @@
+ 	UILIBS = -lhildon-1 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgmodule-2.0 -ldl -lfreetype -lz -lfontconfig -lpng12 -lXrender -lX11 -losso -ldbus-glib-1 -ldbus-1 -lgobject-2.0 -lglib-2.0 -lconic
+ else ifeq "$(UI_TYPE)" "maemo4"
+ 	CFLAGS = -pipe -fno-exceptions -fno-rtti -Wall -Wno-ctor-dtor-privacy -W -pthread -DMAEMO_VERSION=4
+-	GTKINCLUDE = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -DMAEMO_CHANGES -I/usr/include/hildon-1 -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -I/usr/include/conic
+-	UILIBS = -lhildon-1 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgmodule-2.0 -ldl -lfreetype -lz -lfontconfig -lpng12 -lXrender -lX11 -losso -ldbus-glib-1 -ldbus-1 -lgobject-2.0 -lglib-2.0 -lconic
++	GTKINCLUDE = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -DMAEMO_CHANGES -I/usr/include/hildon-1 -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include
++	UILIBS = -lhildon-1 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgmodule-2.0 -ldl -lfreetype -lz -lfontconfig -lpng12 -lXrender -lX11 -losso -ldbus-glib-1 -ldbus-1 -lgobject-2.0 -lglib-2.0
+ else # ifeq "$(UI_TYPE)" "maemo2/3"
+ 	CFLAGS = -pipe -fno-exceptions -fno-rtti -Wall -Wno-ctor-dtor-privacy -W -pthread -mthumb
+ 	GTKINCLUDE = -I/usr/include/libxml2 -I/usr/include/libglade-2.0 -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/X11R6/include -I/usr/include/atk-1.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/hildon-widgets -I/usr/include/hildon-lgpl -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -I/usr/include/conic

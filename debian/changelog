@@ -1,0 +1,535 @@
+fbreader (0.10.7dfsg-2ubuntu2) karmic; urgency=low
+
+  * Brutally rip out -qt and -maemo builds.
+  * Rip out the substvars hack that pulls in libzlui-maemo on lpia.
+  * Prefer -gtk to -qt4. 
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Mon, 13 Jul 2009 17:08:28 +1000
+
+fbreader (0.10.7dfsg-2ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable (LP: #386238), remaining changes:
+    - Add a substvars hack to pull in libzlui-maemo on lpia, and libzlui
+      otherwise.
+
+ -- Muharem Hrnjadovic <muharem@ubuntu.com>  Fri, 12 Jun 2009 08:52:18 +0200
+
+fbreader (0.10.7dfsg-2) unstable; urgency=low
+
+  * debian/control:
+    - Fixed misspelled choice 'libzlui-qt' (Qt3 UI) in Depends.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Tue, 19 May 2009 11:21:39 +0300
+
+fbreader (0.10.7dfsg-1ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable, remaining changes: LP: #377279
+    - Add a substvars hack to pull in libzlui-maemo on lpia, and libzlui
+      otherwise.
+
+ -- Bhavani Shankar <right2bhavi@gmail.com>  Sat, 16 May 2009 20:06:20 +0530
+
+fbreader (0.10.7dfsg-1) unstable; urgency=low
+
+  * New upstream release, some changes:
+    - 0.10.7:
+      - A conflict between hyperlink clicks and touch scrolling has
+        been fixed.
+      - In maemo versions, empty menu items have been hidden.
+    - 0.10.6:
+      - A bug with images/css links in epub has been fixed. All the links
+        inside XHTML files were interpreted relative to the root OPF location
+        instead of XHTML file location. As a result, some images were not shown
+        in epub books.
+    - 0.10.5:
+      - The migration tool from version 0.8.* has been fixed. After an upgrade
+        from 0.8.* to this version, the first opening of your library will take
+        some time.
+      - A freeze (on some PDB books with more than one page and images, and
+        using small font size) has been fixed.
+      - Several text selection related issues have been fixed.
+    - 0.10.4:
+      - Maemo support is back.
+      - Multiple fixes in the epub format support.
+  * debian/control:
+    - Re-introduced libzlui-maemo binary package.
+    - Different minor versions of the same ui packages ('libzlui-*') are
+      incompatible between each other but have the same name, and it can cause
+      problems on upgrades. This is not a reliable behavior, so now
+      'libzlui-*' packages don't provide 'libzlui' virtual package anymore.
+      Binary package 'fbreader' now strictly depends on same or newer binary
+      versions of one of 'libzlui-*' packages. (Closes: #521136)
+    - Bumped 'Standards-Version' to 3.8.1, no changes needed.
+  * debian/rules:
+    - Uncommented building maemo binaries.
+  * debian/dfsg-repack:
+    - Corrected to output usage when the parameter is not given.
+  * debian/patches:
+    - 005-maemo-makefile.patch: refreshed.
+    - New 020-maemo-disable-libconic.patch: disable libconic-related parts of
+      the maemo UI. Libconic depends on closed source, not even available
+      software.
+    - New 200-maemo-gtkentryparameter.patch: remove tuning-only hildon calls
+      that Debian GTK+ libraries cannot (yet?) satisfy.
+    - 930-use-shell-make-variable.patch: refreshed.
+    - debian/patches/940-use-debian-compiler-flags.patch: refreshed.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Fri, 01 May 2009 00:28:06 +0300
+
+fbreader (0.10.3dfsg-1) experimental; urgency=low
+
+  * New upstream release, some changes:
+    - 0.10.3:
+      - Some issues related to multi-file tar, tar.gz and tar.bz2 archives
+        have been fixed.
+    - 0.10.2:
+      - Images order in mobipocket files has been corrected.
+      - Indonesian localization files have been updated.
+  * debian/dfsg-repack:
+    - Corrected to produce correct orig.tar.gz.
+  * debian/patches:
+    - 005-maemo-makefile.patch:
+      - Refreshed.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Fri, 27 Feb 2009 21:26:25 +0200
+
+fbreader (0.10.1dfsg-1) experimental; urgency=low
+
+  * Repacked upstream tarball, removed non-DFSG hyphenation patterns (el, fi,
+    tr languages). See also README.source.
+  * debian/README.source:
+    - Added with reasons of excluding hyphenation patterns from upstream
+      tarball.
+  * debian/copyright:
+    - Renewed copyrights, thanks to Frank Lichtenheld.
+    - Fixed GPLv2 license path on Debian systems.
+    - Mentioned all Debian packaging contributors.
+    - Provided full license and copyright info for hyphenation patterns.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Wed, 04 Feb 2009 22:59:58 +0200
+
+fbreader (0.10.1-1) experimental; urgency=low
+
+  * New upstream release, some changes:
+    - Fixed never-ending loop under certain conditions when operating with
+      library and settings.
+  * debian/patches:
+    - 200-typo-in-searchonnetworkaction.patch: removed, went upstream.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Sun, 18 Jan 2009 16:06:20 +0200
+
+fbreader (0.10.0-1) experimental; urgency=low
+
+  * New upstream release, some changes:
+    - Searching and downloading books from www.feedbooks.com and
+      www.litres.ru.
+    - Partial CSS support for Epub files.
+    - Improved support for Epub and Mobipocket book formats.
+    - Added support for right-to-left languages and bidirectional text.
+    - Added Czech localization.
+  * debian/rules:
+    - Removed some old dh_makeshlibs magic for libzlcore and libzltext.
+    - Temporarily removed libzlui-maemo binary package until maemo support is
+      ready.
+    - Added build-deps: libfribidi-dev, libcurl4-gnutls-dev.
+  * debian/control:
+    - Bumped liblinebreak dependency version to 1.0.
+    - Made qt4 interface for fbreader the default one for new installs.
+    - Updated library binary package names '0.9' -> '0.10'.
+    - Removed some obsolete Conflicts and Replaces for libzlcore0.10 and
+      libzltext0.10.
+    - As GTK2 UI cannot substitute fonts, added Suggests on 'ttf-unifont'
+      for libzlui-gtk package. (Closes: #502040)
+    - Wrote up better short descriptions, modified a bit long description
+      for libzltext0.10. (Closes: #493616)
+    - Improved long description for the libzlcore-data package.
+    - Advanced fbreader long description according to new release.
+    - Added {misc:Depends} to Depends of all packages, fixing lintian
+      warnings.
+    - Removed duplicated 'Priority' fields from binary packages' entries.
+    - Divided architecture-independent data from package libzltext0.10 to its
+      own binary package (liblztext-data) as it leads to conflict problems
+      being in library package along .so files.
+    - Set DM-Upload-Allowed flag.
+  * debian/patches:
+    - 010-add-missing-headers.patch: deleted, went upstream.
+    - 100-fix-centering-with-margins.patch: deleted, went upstream.
+    - 910-remove-deprecated-fields-in-desktop-file.patch: deleted, went
+      upstream.
+    - New 200-typo-in-searchonnetworkaction.patch, cherry-picked from
+      upstream.
+    - Added comments to all Debian patches.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Tue, 13 Jan 2009 22:19:32 +0200
+
+fbreader (0.8.17-12ubuntu1) jaunty; urgency=low
+
+  * Merge from debian unstable, remaining changes (LP: #317726):
+    - Add a substvars hack to pull in libzlui-maemo on lpia, and libzlui 
+      otherwise.
+    - Change fbreader depends on libzlui to ${libzlui:Depends}.
+
+ -- Nick Ellery <nick.ellery@ubuntu.com>  Thu, 15 Jan 2009 17:48:23 -0800
+
+fbreader (0.8.17-12) unstable; urgency=low
+
+  * debian/patches:
+    - New patch 930-use-shell-make-variable.patch. It allows to do 'make -jN'.
+    - New patch 940-use-debian-compiler-flags.patch. It allows to build
+      package with debian-specific flags.
+  * debian/rules:
+    - Added support for 'parallel=n' in DEB_BUILD_OPTIONS.
+    - Added support for 'noopt' in DEB_BUILD_OPTIONS.
+    - Now package builds with '-D_REENTRANT' flag.
+  * debian/control:
+    - Added missing dependency: libzlui-qt4 on libzlcore.
+    - Included SONAME's to library packages' names:
+      - Renamed 'libzlcore' package to 'libzlcore0.9'.
+      - Renamed 'libzltext' package to 'libzltext0.9'.
+    - Split arch-independent stuff from 'libzlcore' to 'libzlcore-data'
+      package.
+    - Fixed dependency: 'libzltext-dev' depends on 'libzltext', not
+      'libzlcore'.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Sat, 12 Jul 2008 20:05:47 +0300
+
+fbreader (0.8.17-11ubuntu3) intrepid; urgency=low
+
+  * Remove the mobile desktop entry, it isn't needed.
+  * Update Maintainer. (LP: #261446)
+  * Clean up debian/rules so the diff is smaller. 
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 27 Aug 2008 10:30:00 +1000
+
+fbreader (0.8.17-11ubuntu2) intrepid; urgency=low
+
+  * Stop installing the mobile desktop entry, fixes build failure on lpia. 
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Mon, 25 Aug 2008 17:17:54 +1000
+
+fbreader (0.8.17-11ubuntu1) intrepid; urgency=low
+
+  * Merge from Debian unstable (LP: #258165).  Remaining Ubuntu changes:
+    + Add a mobile desktop entry, only installed on lpia.
+    + Add a substvars hack to pull in libzlui-maemo on lpia, and libzlui
+      otherwise.
+
+ -- Bhavani Shankar <right2bhavi@gmail.com>  Fri, 15 Aug 2008 19:47:06 +0530
+
+fbreader (0.8.17-11) unstable; urgency=low
+
+  * debian/control:
+    - Enhanced all ZLibrary descriptions, not the main one.
+    - Done some renaming to use canonical names of libraries and toolkits in
+      decriptions, as suggested by developers-reference:
+      'qt' -> 'Qt', 'gtk' -> 'GTK+', 'zlibrary' -> 'ZLibrary'.
+    - Bump 'Depends' on quilt to (>= 0.24).
+  * debian/rules:
+    - Included quilt makefile instead of quilt makefile instead
+      of copy&paste'ing it.
+  * debian/fbreader.links:
+    - Added this file to relay on dh_link's work instead of using 'ln -sf'
+      directly in the debian/rules.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Tue, 17 Jun 2008 23:01:53 +0300
+
+fbreader (0.8.17-10) unstable; urgency=low
+
+  * Switched to quilt patching system.
+  * debian/control:
+    - Enhanced description for libzlcore binary package.
+    - Added 'quilt' to Build-Depends.
+  * debian/rules:
+    - Removed unnecessary 'binary-indep', 'clean' rules.
+    - Added 'patch' and 'unpatch' rules.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Fri, 13 Jun 2008 14:01:27 +0300
+
+fbreader (0.8.17-9) unstable; urgency=low
+
+  * debian/control:
+    - Bump 'Standards-Version' to 3.8.0. No changes needed.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Wed, 11 Jun 2008 21:44:43 +0300
+
+fbreader (0.8.17-8) unstable; urgency=low
+
+  * debian/rules:
+    - Added creating symbolic links to provide lowercase-only path for
+      fbreader. (Closes: #434689)
+
+  * Applied patch: removed obsolete 'Encoding' entry from fbreader desktop
+    file.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Mon, 02 Jun 2008 01:25:10 +0300
+
+fbreader (0.8.17-7) unstable; urgency=low
+
+  * Applied patch: correct centering text honoring margins.
+    (Closes: #475696)
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Fri, 30 May 2008 03:13:20 +0300
+
+fbreader (0.8.17-6) unstable; urgency=low
+
+  * New maintainer. (Closes: #483257)
+  * debian/control:
+    - Updated "Maintainer:" field.
+    - Removed "Vcs-Git" field.
+  * debian/rules:
+    - Added empty 'binary-indep', 'clean' rules to satisfy lintian.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Wed, 28 May 2008 23:16:09 +0300
+
+fbreader (0.8.17-5) unstable; urgency=low
+
+  * debhelper v7, rules file minimisation
+  * Orphaned the package.
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 27 May 2008 19:18:07 -0400
+
+fbreader (0.8.17-4) unstable; urgency=low
+
+  * Use a newer version of liblinebreak-dev, which will properly link into
+    libzltext on more picky architectures. Closes: #475095
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 08 Apr 2008 19:53:36 -0400
+
+fbreader (0.8.17-3) unstable; urgency=low
+
+  * Add b-d on liblinebreak-dev. Closes: #474805
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 08 Apr 2008 17:28:05 -0400
+
+fbreader (0.8.17-2) unstable; urgency=low
+
+  * Header fix for gcc 4.3. Closes: #474805
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 07 Apr 2008 17:47:04 -0400
+
+fbreader (0.8.17-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 07 Apr 2008 12:29:01 -0400
+
+fbreader (0.8.15-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Sun, 09 Mar 2008 17:50:31 -0400
+
+fbreader (0.8.14-2) unstable; urgency=low
+
+  * Fix missing include in maemo UI to allow building with gcc 4.3.
+    Closes: #466756
+
+ -- Joey Hess <joeyh@debian.org>  Wed, 20 Feb 2008 18:24:32 -0500
+
+fbreader (0.8.14-1ubuntu1) hardy; urgency=low
+
+  * Merge from Debian unstable.  Remaining Ubuntu changes:
+    + Add a mobile desktop entry, only installed on lpia.
+    + Add a substvars hack to pull in libzlui-maemo on lpia, and libzlui
+      otherwise.
+    + Munge Maintainer field as per spec.
+
+ -- Emmet Hikory <persia@ubuntu.com>  Thu, 14 Feb 2008 01:38:08 +0900
+
+fbreader (0.8.14-1) unstable; urgency=low
+
+  * New Upstream Version
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 11 Feb 2008 12:07:34 -0500
+
+fbreader (0.8.13-1) unstable; urgency=low
+
+  * New Upstream Version. Closes: #461813
+  * Fixes orig tarball snafu. Closes: #462353
+
+ -- Joey Hess <joeyh@debian.org>  Sat, 09 Feb 2008 13:31:33 -0500
+
+fbreader (0.8.12-3ubuntu1) hardy; urgency=low
+
+  * Add a mobile desktop entry, only installed on lpia.
+  * Add a substvars hack to pull in libzlui-maemo on lpia, and libzlui
+    otherwise.
+  * Munge Maintainer field as per spec.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 13 Feb 2008 11:58:53 +1100
+
+fbreader (0.8.13-1) unstable; urgency=low
+
+  * New Upstream Version. Closes: #461813
+  * Fixes orig tarball snafu. Closes: #462353
+
+ -- Joey Hess <joeyh@debian.org>  Sat, 09 Feb 2008 13:31:33 -0500
+
+fbreader (0.8.12-3) unstable; urgency=low
+
+  * Add libzlui-maemo which allows using fbreader on the maemo platform, on
+    Debian. Thanks, Riku Voipio. Closes: #462299
+  * makefiles/arch/maemo.mk: Don't build with -thumb. (Riku)
+  * Loosen dependency versions some more, so it only depends on the current
+    upstream version or higher, ignoring the Debian revision.
+  * Use binary:Version instead of deprecated Source-Version.
+
+ -- Joey Hess <joeyh@debian.org>  Wed, 23 Jan 2008 16:51:07 -0500
+
+fbreader (0.8.12-2) unstable; urgency=low
+
+  * Include dependency loosening changes.
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 22 Jan 2008 13:27:08 -0500
+
+fbreader (0.8.12-1) unstable; urgency=low
+
+  * New upstream version. Closes: #461813
+  * Didn't include upstream's dependency changes yet.
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 21 Jan 2008 12:59:59 -0500
+
+fbreader (0.8.11-1) stable; urgency=low
+
+  * new upstream version
+  * dependency rules have been changed
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Sat, 12 Jan 2008 22:27:00 +0300
+
+fbreader (0.8.10-1) stable; urgency=low
+
+  * new upstream version
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Fri, 4 Jan 2008 20:53:00 +0300
+
+fbreader (0.8.9-1) unstable; urgency=low
+
+  * New Upstream Version
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 31 Dec 2007 11:40:17 -0500
+
+fbreader (0.8.8a-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 18 Dec 2007 17:26:06 -0500
+
+fbreader (0.8.8-2) unstable; urgency=low
+
+  * Fix missing include to allow building with gcc 4.3. Closes: #456085
+
+ -- Joey Hess <joeyh@debian.org>  Thu, 13 Dec 2007 01:47:01 -0500
+
+fbreader (0.8.8-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 04 Dec 2007 12:51:45 -0500
+
+fbreader (0.8.7b-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Thu, 15 Nov 2007 19:21:34 -0500
+
+fbreader (0.8.7-1) unstable; urgency=low
+
+  [ Nikolay Pultsin ]
+  * new upstream version
+
+ -- Joey Hess <joeyh@debian.org>  Fri, 26 Oct 2007 04:57:02 -0400
+
+fbreader (0.8.6d-2) unstable; urgency=low
+
+  * Change %U to %F in menu file, as fbreader does not support URLs.
+    Closes: #447971
+
+ -- Joey Hess <joeyh@debian.org>  Thu, 25 Oct 2007 13:36:19 -0400
+
+fbreader (0.8.6d-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Sun, 09 Sep 2007 13:16:49 -0400
+
+fbreader (0.8.6c-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 04 Sep 2007 20:22:41 -0400
+
+fbreader (0.8.6b-1) unstable; urgency=low
+
+  * Add real Homepage field. (Needs really new dpkg.)
+  * New upstream version. (Only Windows fixes.)
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 27 Aug 2007 13:17:47 -0400
+
+fbreader (0.8.6a-2) unstable; urgency=low
+
+  * Fix handling of nostrip build option. Closes: #436837
+
+ -- Joey Hess <joeyh@debian.org>  Sat, 11 Aug 2007 20:30:25 -0400
+
+fbreader (0.8.6a-1) unstable; urgency=low
+
+  [ Nikolay Pultsin ]
+  * new upstream version
+  * added libzlibrary-dev package
+
+  [ Joey Hess ]
+  * Small changes to the new -dev packages.
+  * Upload to Debian.
+
+ -- Joey Hess <joeyh@debian.org>  Wed, 08 Aug 2007 10:51:40 -0700
+
+fbreader (0.8.5c-1) unstable; urgency=low
+
+  * new upstream version
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Thu, 19 Jul 2007 15:20:00 +0400
+
+fbreader (0.8.5b-1) unstable; urgency=low
+
+  * new upstream version
+  * almost all changes from the previous change are now included into
+    the upstream version: zlibrary shared objects moving, rpath deletion,
+    and the man page.
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Tue, 10 Jul 2007 21:50:00 +0400
+
+fbreader (0.8.5a-1) unstable; urgency=low
+
+  * First upload to Debian. Closes: #432274
+  * Misc debianisation changes.
+  * Move zlibrary shared object files to /usr/lib from /usr/share.
+  * Remove use of rpath.
+  * Use sensible-browser.
+  * Added a basic man page.
+
+ -- Joey Hess <joeyh@debian.org>  Mon, 09 Jul 2007 15:04:31 -0400
+
+fbreader (0.8.5-1) stable; urgency=low
+
+  * new upstream version
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Sat, 7 Jul 2007 02:12:00 +0400
+
+fbreader (0.8.4zz-1) stable; urgency=low
+
+  * new upstream version
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Thu, 5 Jul 2007 03:17:00 +0400
+
+fbreader (0.8.4z-2) stable; urgency=low
+
+  * postinst/postrm scripts were added
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Fri, 29 Jun 2007 21:23:00 +0400
+
+fbreader (0.8.4z-1) stable; urgency=low
+
+  * Initial release.
+
+ -- Nikolay Pultsin <geometer@fbreader.org>  Fri, 29 Jun 2007 17:53:00 +0400
+

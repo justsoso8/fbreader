@@ -1,0 +1,13 @@
+Use Debian-provided CFLAGS instead of hardcoded ones.
+Index: fbreader/makefiles/config.mk
+===================================================================
+--- fbreader.orig/makefiles/config.mk	2009-05-01 00:02:07.627296330 +0300
++++ fbreader/makefiles/config.mk	2009-05-01 00:02:07.814799901 +0300
+@@ -31,6 +31,7 @@
+ ifeq "$(TARGET_STATUS)" "profile"
+ 	CFLAGS += -O3 -g -pg
+ endif
++CFLAGS += $(DEBFLAGS)
+ 
+ ZINCLUDE = -I $(ROOTDIR)/zlibrary/core/include -I $(ROOTDIR)/zlibrary/text/include
+ 

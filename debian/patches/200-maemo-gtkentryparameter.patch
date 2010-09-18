@@ -1,0 +1,19 @@
+Comment out hildon calls that aren't hacked into Debian GTK+ library.
+Index: fbreader/zlibrary/ui/src/maemo/application/GtkEntryParameter.cpp
+===================================================================
+--- fbreader.orig/zlibrary/ui/src/maemo/application/GtkEntryParameter.cpp	2009-03-31 18:51:25.970379910 +0300
++++ fbreader/zlibrary/ui/src/maemo/application/GtkEntryParameter.cpp	2009-03-31 18:52:25.308828507 +0300
+@@ -73,11 +73,13 @@
+ 	gtk_entry_set_alignment(myEntry, 0.5);
+ 	gtk_entry_set_width_chars(myEntry, item.maxWidth());
+ 	gtk_entry_set_max_length(myEntry, item.maxWidth());
++	/*
+ 	if (item.symbolSet() == ZLToolbar::ParameterItem::SET_DIGITS) {
+ 		hildon_gtk_entry_set_input_mode(myEntry, HILDON_GTK_INPUT_MODE_NUMERIC);
+ 	} else {
+ 		hildon_gtk_entry_set_input_mode(myEntry, HILDON_GTK_INPUT_MODE_FULL);
+ 	}
++	*/
+ 	ZLGtkSignalUtil::connectSignal(GTK_OBJECT(myEntry), "key_press_event", GTK_SIGNAL_FUNC(::onKeyPressed), this);
+ }
+ 

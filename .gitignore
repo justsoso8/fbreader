@@ -1,0 +1,25 @@
+#Source Insight
+*.IAB
+*.IAD
+*.IMB
+*.IMD
+*.PFI
+*.PO
+*.PR
+*.PRI
+*.PS
+*.WK3
+
+#CScope
+cscope.in.out
+cscope.out
+cscope.po.out
+
+#Tags
+tags
+
+*.swp
+*.[ado]
+
+fbreader/FBReader
+

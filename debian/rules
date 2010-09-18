@@ -1,0 +1,56 @@
+#!/usr/bin/make -f
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	AUXMAKEFLAGS += -j$(NUMJOBS)
+endif
+
+CFLAGS += -D_REENTRANT
+
+%:
+	dh $@
+
+clean: unpatch
+	dh clean
+
+build: patch build-stamp
+build-stamp:
+	dh build --before dh_auto_build
+	$(MAKE) $(AUXMAKEFLAGS) DEBFLAGS="$(CFLAGS)" -C zlibrary/core TARGET_ARCH=desktop UI_TYPE=dummy
+	$(MAKE) $(AUXMAKEFLAGS) DEBFLAGS="$(CFLAGS)" -C zlibrary/text TARGET_ARCH=desktop UI_TYPE=dummy
+	$(MAKE) $(AUXMAKEFLAGS) DEBFLAGS="$(CFLAGS)" -C zlibrary/ui TARGET_ARCH=desktop UI_TYPE=gtk
+	$(MAKE) $(AUXMAKEFLAGS) DEBFLAGS="$(CFLAGS)" -C zlibrary/ui TARGET_ARCH=desktop UI_TYPE=qt4
+	$(MAKE) $(AUXMAKEFLAGS) DEBFLAGS="$(CFLAGS)" -C fbreader TARGET_ARCH=desktop UI_TYPE=dummy
+	dh build --after dh_auto_build
+	touch build-stamp 
+
+DEB_DIR = $(CURDIR)/debian
+
+install: build
+	dh install --before dh_auto_install
+	$(MAKE) -C zlibrary/core TARGET_ARCH=desktop UI_TYPE=dummy DESTDIR=$(DEB_DIR)/tmp do_install
+	mv $(DEB_DIR)/tmp/usr/share/zlibrary $(DEB_DIR)/libzlcore-data/usr/share
+	mv $(DEB_DIR)/tmp/usr/lib $(DEB_DIR)/libzlcore0.10/usr/
+	$(MAKE) -C zlibrary/text TARGET_ARCH=desktop UI_TYPE=dummy DESTDIR=$(DEB_DIR)/tmp do_install
+	mv $(DEB_DIR)/tmp/usr/share/zlibrary $(DEB_DIR)/libzltext-data/usr/share
+	mv $(DEB_DIR)/tmp/usr/lib $(DEB_DIR)/libzltext0.10/usr/
+	$(MAKE) -C zlibrary/core TARGET_ARCH=desktop UI_TYPE=dummy DESTDIR=$(DEB_DIR)/libzlcore-dev do_install_dev
+	$(MAKE) -C zlibrary/text TARGET_ARCH=desktop UI_TYPE=dummy DESTDIR=$(DEB_DIR)/libzltext-dev do_install_dev
+	$(MAKE) -C zlibrary/ui TARGET_ARCH=desktop UI_TYPE=gtk DESTDIR=$(DEB_DIR)/libzlui-gtk do_install
+	$(MAKE) -C zlibrary/ui TARGET_ARCH=desktop UI_TYPE=qt4 DESTDIR=$(DEB_DIR)/libzlui-qt4 do_install
+	$(MAKE) -C fbreader TARGET_ARCH=desktop UI_TYPE=dummy DESTDIR=$(DEB_DIR)/fbreader do_install
+	dh install --after dh_auto_install
+
+binary-indep: binary-arch
+	dh binary-indep
+
+binary-arch: build install
+	dh binary-arch --before dh_makeshlibs
+	dh_makeshlibs -plibzlcore0.10
+	dh_makeshlibs -plibzltext0.10
+	dh binary-arch --after dh_makeshlibs
+
+binary:	binary-indep binary-arch
+
+include /usr/share/quilt/quilt.make
+

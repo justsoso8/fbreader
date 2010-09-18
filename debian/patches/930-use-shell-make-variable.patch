@@ -1,0 +1,105 @@
+Use shell MAKE variable to allow parallel builds.
+Index: fbreader/Makefile
+===================================================================
+--- fbreader.orig/Makefile	2009-03-29 18:33:45.941040634 +0300
++++ fbreader/Makefile	2009-03-29 18:34:50.481041319 +0300
+@@ -21,21 +21,21 @@
+ do_install:
+ 	@for dir in $(ZLIBDIRS) $(APPDIRS); do \
+ 		if [ -d $$dir ]; then \
+-			cd $$dir; make $@; cd $(ROOTDIR); \
++			cd $$dir; $(MAKE) $@; cd $(ROOTDIR); \
+ 		fi; \
+ 	done
+ 
+ do_install_dev:
+ 	@for dir in $(ZLIBDIRS); do \
+ 		if [ -d $$dir ]; then \
+-			cd $$dir; make $@; cd $(ROOTDIR); \
++			cd $$dir; $(MAKE) $@; cd $(ROOTDIR); \
+ 		fi; \
+ 	done
+ 
+ clean:
+ 	@for dir in $(ZLIBDIRS) $(APPDIRS); do \
+ 		if [ -d $$dir ]; then \
+-			cd $$dir; make $@; cd $(ROOTDIR); \
++			cd $$dir; $(MAKE) $@; cd $(ROOTDIR); \
+ 		fi; \
+ 	done
+ 
+Index: fbreader/fbreader/Makefile
+===================================================================
+--- fbreader.orig/fbreader/Makefile	2009-03-29 18:33:45.957035125 +0300
++++ fbreader/fbreader/Makefile	2009-03-29 18:34:50.481041319 +0300
+@@ -55,13 +55,13 @@
+ 	@install -m 0644 $(wildcard data/icons/toolbar/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
+ 	@install -m 0644 $(wildcard data/icons/filetree/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
+ 	@install -m 0644 $(wildcard data/icons/booktree/$(VARIANT)/*.*) $(DESTDIR)$(APPIMAGEDIR_REAL)
+-	@make -C $(TARGET_ARCH) RESOLUTION=$(RESOLUTION) install
++	@$(MAKE) -C $(TARGET_ARCH) RESOLUTION=$(RESOLUTION) install
+ 
+ clean:
+ 	@for subdir in $(ALL_SUBDIRS); do \
+ 		$(MAKE) -C $$subdir -f $(MAKEFILESDIR)/subdir.mk clean; \
+ 	done;
+ 	@for subdir in $(ALL_ARCHSUBDIRS); do \
+-		cd $$subdir; make clean; cd ..; \
++		cd $$subdir; $(MAKE) clean; cd ..; \
+ 	done;
+ 	@$(RM) $(TARGET) err
+Index: fbreader/zlibrary/core/Makefile
+===================================================================
+--- fbreader.orig/zlibrary/core/Makefile	2009-03-29 18:33:45.973035972 +0300
++++ fbreader/zlibrary/core/Makefile	2009-03-29 18:34:50.481041319 +0300
+@@ -38,7 +38,7 @@
+ endif
+ 
+ .objects:
+-	@for subdir in $(SUBDIRS); do \
++	+@for subdir in $(SUBDIRS); do \
+ 		if [ -d $$subdir ]; then \
+ 			if ! $(LIBMAKE) -C $$subdir -f $(MAKEFILESDIR)/subdir.mk; then \
+ 				exit 1; \
+Index: fbreader/zlibrary/text/Makefile
+===================================================================
+--- fbreader.orig/zlibrary/text/Makefile	2009-03-29 18:33:45.989033397 +0300
++++ fbreader/zlibrary/text/Makefile	2009-03-29 18:34:50.481041319 +0300
+@@ -22,7 +22,7 @@
+ SUBDIRS = src/model src/view src/hyphenation
+ 
+ .objects:
+-	@for subdir in $(SUBDIRS); do \
++	+@for subdir in $(SUBDIRS); do \
+ 		if [ -d $$subdir ]; then \
+ 			if ! $(LIBMAKE) -C $$subdir -f $(MAKEFILESDIR)/subdir.mk; then \
+ 				exit 1; \
+Index: fbreader/zlibrary/ui/Makefile
+===================================================================
+--- fbreader.orig/zlibrary/ui/Makefile	2009-03-29 18:33:46.005032289 +0300
++++ fbreader/zlibrary/ui/Makefile	2009-03-29 18:34:50.485038965 +0300
+@@ -66,21 +66,21 @@
+ endif
+ 
+ .objects:
+-	@for subdir in $(SUBDIRS); do \
++	+@for subdir in $(SUBDIRS); do \
+ 		if [ -d $$subdir ]; then \
+ 			if ! $(LIBMAKE) -C $$subdir -f $(MAKEFILESDIR)/subdir.mk; then \
+ 				exit 1; \
+ 			fi; \
+ 		fi; \
+ 	done;
+-	@for subdir in $(QTSUBDIRS); do \
++	+@for subdir in $(QTSUBDIRS); do \
+ 		if [ -d $$subdir ]; then \
+ 			if ! $(LIBMAKE) -C $$subdir -f $(MAKEFILESDIR)/qsubdir.mk; then \
+ 				exit 1; \
+ 			fi; \
+ 		fi; \
+ 	done;
+-	@for subdir in $(GTKSUBDIRS); do \
++	+@for subdir in $(GTKSUBDIRS); do \
+ 		if [ -d $$subdir ]; then \
+ 			if ! $(LIBMAKE) -C $$subdir -f $(MAKEFILESDIR)/gtksubdir.mk; then \
+ 				exit 1; \

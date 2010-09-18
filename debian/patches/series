@@ -1,0 +1,7 @@
+005-maemo-makefile.patch
+020-maemo-disable-libconic.patch
+110-use-sensible-browser.patch
+200-maemo-gtkentryparameter.patch
+900-delete-useless-strip-flag.patch
+930-use-shell-make-variable.patch
+940-use-debian-compiler-flags.patch

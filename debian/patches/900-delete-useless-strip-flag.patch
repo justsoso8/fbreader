@@ -1,0 +1,12 @@
+Don't strip fbreader binary directly after building, dh_strip will do it.
+--- fbreader-0.8.17.orig/makefiles/config.mk
++++ fbreader-0.8.17/makefiles/config.mk
+@@ -19,7 +19,7 @@
+ 
+ ifeq "$(TARGET_STATUS)" "release"
+ 	CFLAGS += -O3
+-	LDFLAGS += -s
++#	LDFLAGS += -s # dh_strip will strip it in Debian --JEH
+ endif
+ ifeq "$(TARGET_STATUS)" "debug"
+ 	CFLAGS += -O0 -g

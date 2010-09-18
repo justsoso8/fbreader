@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -e
+
+# This script removes non-dfsg files from upstream tarball.
+# Requires package 'zip' to be installed
+
+ORIG_TARBALL=$1
+if [ -z $ORIG_TARBALL ]; then
+	echo "Usage: $0 <path to tarball>"
+	exit 1
+fi
+ZIP_FILE=zlibrary/text/data/hyphenationPatterns.zip
+
+REPACK_DIR=./tmp-fbreader-repack
+mkdir -p $REPACK_DIR
+
+tar -C $REPACK_DIR -xzf $ORIG_TARBALL
+UPSTREAM_DIR=`ls -1 $REPACK_DIR/`; \
+(cd $REPACK_DIR && \
+	zip -d $UPSTREAM_DIR/$ZIP_FILE "el.pattern" "fi.pattern" "tr.pattern"; \
+	mv $UPSTREAM_DIR ${UPSTREAM_DIR}.orig;
+)
+
+tar -C $REPACK_DIR -cf - ${UPSTREAM_DIR}.orig |
+	gzip --best -c > $ORIG_TARBALL.dfsg
+
+rm -r $REPACK_DIR
