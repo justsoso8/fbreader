@@ -9,6 +9,7 @@
 *.PRI
 *.PS
 *.WK3
+*.SearchResults
 
 #CScope
 cscope.in.out
