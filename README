@@ -1,1 +1,8 @@
 fbreader-0.10.7dfsg on ubuntu 10.04 LTS
+
+git clone git@github.com:justsoso8/fbreader.git
+or
+git pull git@github.com:justsoso8/fbreader.git
+git push git@github.com:justsoso8/fbreader.git
+git remote add origin git@github.com:justsoso8/fbreader.git
+
